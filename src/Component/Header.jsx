@@ -4,10 +4,10 @@ import Button1 from "../Component/Button1";
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Add 'sticky' class when the scroll position is greater than 50px
       if (window.scrollY > 50) {
         setIsSticky(true);
       } else {
@@ -15,14 +15,19 @@ function Header() {
       }
     };
 
-    // Listen for scroll events
     window.addEventListener("scroll", handleScroll);
-
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const toggleNavbar = () => {
+    setIsNavCollapsed(!isNavCollapsed);
+  };
+
+  const closeNavbar = () => {
+    setIsNavCollapsed(true);
+  };
 
   return (
     <>
@@ -34,52 +39,59 @@ function Header() {
         >
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
-              <img src={Logoimg} alt="" className="logo-img" />
+              <img src={Logoimg} alt="Logo" className="logo-img" />
             </a>
             <button
               className="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
+              onClick={toggleNavbar}
               aria-controls="navbarSupportedContent"
-              aria-expanded="false"
+              aria-expanded={!isNavCollapsed}
               aria-label="Toggle navigation"
             >
-                        <span class="toggler-icon top-bar"></span>
-            <span class="toggler-icon middle-bar"></span>
-            <span class="toggler-icon bottom-bar"></span>
+              <span className="toggler-icon top-bar"></span>
+              <span className="toggler-icon middle-bar"></span>
+              <span className="toggler-icon bottom-bar"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <div
+              className={`collapse navbar-collapse ${
+                isNavCollapsed ? "" : "show"
+              }`}
+              id="navbarSupportedContent"
+            >
               <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link " href="#home-1">
+                  <a className="nav-link" href="#home-1" onClick={closeNavbar}>
                     Home
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#feature">
+                  <a className="nav-link" href="#feature" onClick={closeNavbar}>
                     Features
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#pricing">
+                  <a className="nav-link" href="#pricing" onClick={closeNavbar}>
                     Pricing
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#Testimonials">
+                  <a
+                    className="nav-link"
+                    href="#Testimonials"
+                    onClick={closeNavbar}
+                  >
                     Testimonials
                   </a>
                 </li>
-            
                 <li className="nav-item">
-                  <a className="nav-link" href="#Screen">
+                  <a className="nav-link" href="#Screen" onClick={closeNavbar}>
                     Screens
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#FAQs">
-                 FAQ
+                  <a className="nav-link" href="#FAQs" onClick={closeNavbar}>
+                    FAQ
                   </a>
                 </li>
               </ul>
